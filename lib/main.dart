@@ -1,11 +1,23 @@
-import 'package:flutter/Material.dart';
 import 'package:flutter/material.dart';
+import 'package:testing/second_screen.dart';
+import 'package:testing/sensor/acclerometer.dart';
+import 'package:testing/sensor/gyroscope.dart';
+import 'package:testing/sensor/proximity.dart';
+import 'package:testing/sensor_screen.dart';
 
 void main() {
   runApp(
-    const MaterialApp(
+    MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Calculator(),
+      initialRoute: '/sensor',
+      routes: {
+        '/': (context) => const Calculator(),
+        '/second': (context) => const SecondScreen(),
+        '/sensor': (context) => const SensorScreen(),
+        '/acclerometer': (context) => const Acclerometer(),
+        '/gyroscope': (context) => const Gyroscope(),
+        '/proximity': (context) => const Proximity(),
+      },
     ),
   );
 }
@@ -53,6 +65,7 @@ class _CalculatorState extends State<Calculator> {
           child: Column(
             children: <Widget>[
               TextFormField(
+                  key: const ValueKey('firstNumber'),
                   controller: _firstNumber,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
@@ -65,6 +78,7 @@ class _CalculatorState extends State<Calculator> {
                 height: 10,
               ),
               TextFormField(
+                key: const ValueKey('secondNumber'),
                 controller: _secondNumber,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
@@ -80,8 +94,10 @@ class _CalculatorState extends State<Calculator> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  key: const ValueKey('addBtn'),
                   onPressed: () {
                     add();
+                    Navigator.pushNamed(context, '/second', arguments: result);
                   },
                   child: const Text('Add'),
                 ),
@@ -92,6 +108,7 @@ class _CalculatorState extends State<Calculator> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  key: const ValueKey('subtractBtn'),
                   onPressed: () {
                     subtract();
                   },
@@ -101,17 +118,17 @@ class _CalculatorState extends State<Calculator> {
               const SizedBox(
                 height: 10,
               ),
-              Card(
-                color: Colors.amberAccent,
-                child: ListTile(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  title: Text('Result:$result ',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center),
-                ),
-              ),
+              // Card(
+              //   color: Colors.amberAccent,
+              //   child: ListTile(
+              //     shape: const RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.all(Radius.circular(10)),
+              //     ),
+              //     title: Text('Result:$result',
+              //         style: const TextStyle(fontWeight: FontWeight.bold),
+              //         textAlign: TextAlign.center),
+              //   ),
+              // ),
             ],
           ),
         ),
